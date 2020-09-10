@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, ChangeEvent } from 'react';
 import { Flex, Button, P, Link } from '@tpr/core';
-import { Input } from '@tpr/forms';
+import { FFInputText, Form } from '@tpr/forms';
 import { extractToObject } from './helpers';
 import { PostcodeProps } from '../../../common/interfaces';
 import styles from './Postcode.module.scss';
@@ -79,22 +79,32 @@ const Postcode: React.FC<PostcodeProps> = ({
 		}
 	}, []);
 
+  const validatepostcode = () => {
+    return false;
+  }
+
 	return (
 		<div className={styles.wrapper}>
 			<P cfg={{ mb: 3 }}>{i18n.address.auto.subtitle}</P>
 			<P cfg={{ mb: 2, fontWeight: 3 }}>{i18n.address.postcode.title}</P>
 			{lookup ? (
 				<>
-					<div className={styles.inputWrapper}>
-						<Input
+          <Form
+            onSubmit={() =>{}}
+          >
+            {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <FFInputText
 							type="text"
 							value={postcode}
 							onChange={(evt: ChangeEvent<HTMLInputElement>) =>
 								setPostcode(evt.target.value)
 							}
 							disabled={loading}
+							name=''
+							label=''
+							validate={validatepostcode}
 						/>
-					</div>
 					<Flex>
 						<Button
 							onClick={() => {
@@ -105,6 +115,9 @@ const Postcode: React.FC<PostcodeProps> = ({
 							{loading ? 'Loading...' : i18n.address.postcode.button}
 						</Button>
 					</Flex>
+              </form>
+            )}
+          </Form>
 				</>
 			) : (
 				<Flex>
